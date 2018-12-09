@@ -1,0 +1,62 @@
+********************************************************************************
+
+                                                          :::      ::::::::
+     todolist.txt                                       :+:      :+:    :+:
+                                                      +:+ +:+         +:+
+     By: naali <marvin@42.fr>                       +#+  +:+       +#+
+                                                  +#+#+#+#+#+   +#+
+     Created: 2018/12/09 13:19:08 by naali             #+#    #+#
+     Updated: 2018/12/09 13:46:17 by naali            ###   ########.fr         
+
+********************************************************************************
+
+Avant Propos:
+
+- Executable -> fdf
+
+- Makefile OBLIGATOIRE
+
+- Regles all clean fclean re
+
+- Libft autoriser, a mettre dans un dossier libft a la racine du projet.
+
+- PAS DE VARIABLES GLOBALE ET CODE A LA NORME
+
+- Gestion des erreures proprement (pas de SIGEV etc...)
+
+- NOOOOOO LEEEEAAAAAAKKKSSSSSSS
+
+- Fichier auteur (echo "login" > auteur)
+
+- 2 choix possibles pour l'utilisation de la minilibx:
+  	-> A partir des sources presents sur le dump des machines
+	-> A partir des sources elles meme (dossier minilibx racine proj)
+
+- Fonction autoriser:
+  	-> open, read, write, close
+	-> malloc, free
+	-> perror, strerror
+	-> exit
+	-> Toutes les fonctions de la lib math (-lm man 3 math)
+	-> Toutes les fonctions de la mlx
+
+- D'autres fonctions peuvent etre utiliser mais doivent etre GIGA justifier
+
+Partie Obligatoire:
+
+- Lecture:
+	-> Entree --> Fichier
+	-> Sortie --> tableau string
+
+- Parsing:
+	-> Entree --> Tableau string
+	-> Sortie --> Tableau liste int
+
+- Conversion:
+	-> Entree --> Tableau liste int
+	-> Sortie --> pixel
+
+- Affichage:
+	-> Entree --> pixel
+	-> Sortie --> coloration etc...
+
