@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 13:08:32 by naali             #+#    #+#             */
-/*   Updated: 2018/12/09 15:46:42 by naali            ###   ########.fr       */
+/*   Updated: 2018/12/10 19:30:20 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,102 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "mlx.h"
+#include "libft/libft.h"
+#include "libft/libft.h"
+#include "libft/get_next_line.h"
+#include "includes/fdf.h"
+
+/*
+** Test de recuperation des touche
+*/
 
 int		deal_key(int key, void *ptr)
 {
-	if (ptr != (void*)53)
-		printf("%d\n, %s", key, ptr);
-	else
-		exit(0);
-	return (0);
-}
-
-int		main()
-{
-	float		x;
-	float		y;
-	void	*mlx_ptr;
-	void	*win_ptr;
-
-	x = 0;
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, 800, 600, "Test");
-	while (x < 800)
+	t_fdf	*test;
+	test = (t_fdf*)ptr;
+	if (key == ESC)
 	{
-		y = 0;
-		while (y < 600)
-		{
-			if ((x <= 400 + 50 && x >= 400 - 50) && (y == 300 + 50 || y == 300 - 50))
-				mlx_pixel_put(mlx_ptr, win_ptr, x, y, 0xFF00FF);
-			if ((y <= 300 + 50 && y >= 300 - 50) && (x == 400 + 50 || x == 400 - 50))
-				mlx_pixel_put(mlx_ptr, win_ptr, x, y, 0x00FF00);
-			y++;
-		}
-		x = x + 1;
+		test->keys = esc;
+		printf("%s, %d\n", "Echap", test->keys);
+		exit(0);
 	}
-	mlx_key_hook(win_ptr, deal_key, (void*)0);
-	mlx_loop(mlx_ptr);
+	if (key == FLG)
+	{
+		test->keys = fg;
+		printf("%s, %d\n", "Fleche Gauche", test->keys);
+	}
+	if (key == FLD)
+	{
+		test->keys = fd;
+		printf("%s, %d\n", "Fleche Gauche", test->keys);
+	}
+	if (key == FLB)
+	{
+		test->keys = fb;
+		printf("%s, %d\n", "Fleche Gauche", test->keys);
+	}
+	if (key == FLH)
+	{
+		test->keys = fh;
+		printf("%s, %d\n", "Fleche Gauche", test->keys);
+	}
 	return (0);
 }
 
+/*
+** Affiche un carre
+*/
 
+void	print_square(t_fdf *s, t_map *m)
+{
+	s->y = 0;
+	while (s->y < m->ymax)
+	{
+		s->x = 0;
+		while (s->x < m->xmax)
+		{
+			if (m->tab[s->y][s->x] == 0)
+				s->simg.data[(s->y * WINX + s->x)*10] = 0xFFFFFF;
+			else if (m->tab[s->y][s->x] > 0)
+				s->simg.data[(s->y * WINX + s->x)*10] = 0xFF0000;
+			s->x++;
+		}
+		s->y++;
+	}
+}
 
+int		main(int ac, char **av)
+{
+	t_fdf	s;
+	t_map	m;
 
+	m.nbl = 0;
+	if (ac != 2)
+	{
+		printf("Usage: ./fdf [map]\n");
+		return (0);
+	}
+// Initialisation des variables (mlx)
+	s.mlxp = mlx_init();
+	s.winp = mlx_new_window(s.mlxp, WINX, WINY, "Test");
 
+// Recuperation du nombre de ligne
+	file_to_tab(av[1], &m);
+	printf("xmax = %d, ymax = %d\n", m.xmax, m.ymax);
+// Creation d'image
+	s.simg.imgp = mlx_new_image(s.mlxp, WINX, WINY);
+	s.simg.data = (int*)mlx_get_data_addr(s.simg.imgp, &(s.simg.bpp), &(s.simg.s_l), &(s.simg.endian));
 
+// Remplisage
+	print_square(&s, &m);
 
+// Affichage
+	mlx_put_image_to_window(s.mlxp, s.winp, s.simg.imgp, 0, 0);
 
+// Boucle de recuperation
+	mlx_key_hook(s.winp, deal_key, &s);
 
-
-
-
+// Boucle finale
+	mlx_loop(s.mlxp);
+	return (0);
+}
