@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 10:41:27 by naali             #+#    #+#             */
-/*   Updated: 2018/12/10 19:34:24 by naali            ###   ########.fr       */
+/*   Updated: 2018/12/12 19:29:50 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # define WINX 800
 # define WINY 600
+
+# define EYEX WINX/2
+# define EYEY WINY/2
+# define EYEZ 200
 
 # define FLG 123
 # define FLD 124
@@ -32,35 +36,22 @@ typedef enum		e_keys
 	esc
 }					te_keys;
 
-typedef struct		s_scale
+typedef struct		s_vertex
 {
-	float		xs;
-	float		ys;
-	float		zs;
-
-	float		xt;
-	float		yt;
-	float		zt;
-
-	float		xr;
-	float		yr;
-	float		zr;
-}
+	float		x;
+	float		y;
+	float		z;
+}					t_vertex;
 
 typedef struct		s_map
 {
 	int			fd;
 	int			xmax;
 	int			ymax;
+	int			nbl;
 	char		*line;
 	char		**tbline;
-	int			nbl;
 	int			**tab;
-	int			xs;
-	int			ys;
-	int			xt;
-	int			yt;
-	int			rot;
 }					t_map;
 
 typedef struct		s_img
@@ -72,15 +63,20 @@ typedef struct		s_img
 	int			endian;
 }					t_img;
 
-typedef struct		s_fdf
+typedef struct		s_win
 {
-	void		*mlxp;
-	void		*winp;
 	int			x;
 	int			y;
+	void		*mlxp;
+	void		*winp;
 	t_img		simg;
+	t_map		m;
+	t_vertex	vec[3];
+	float		xt;
+	float		yt;
+	float		rot;
 	te_keys		keys;
-}					t_fdf;
+}					t_win;
 
 void			file_to_tab(char *path, t_map *m);
 int				tablen(const char **tab);
