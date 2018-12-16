@@ -6,26 +6,23 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 10:41:27 by naali             #+#    #+#             */
-/*   Updated: 2018/12/12 19:29:50 by naali            ###   ########.fr       */
+/*   Updated: 2018/12/16 15:52:51 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
+# define ZPIX 4
+
 # define WINX 800
 # define WINY 600
 
 # define EYEX WINX/2
 # define EYEY WINY/2
-# define EYEZ 200
+# define ALPHA 45
 
-# define FLG 123
-# define FLD 124
-# define FLB 125
-# define FLH 126
-
-# define ESC 53
+# include "t_struct.h"
 
 typedef enum		e_keys
 {
@@ -36,13 +33,6 @@ typedef enum		e_keys
 	esc
 }					te_keys;
 
-typedef struct		s_vertex
-{
-	float		x;
-	float		y;
-	float		z;
-}					t_vertex;
-
 typedef struct		s_map
 {
 	int			fd;
@@ -51,7 +41,8 @@ typedef struct		s_map
 	int			nbl;
 	char		*line;
 	char		**tbline;
-	int			**tab;
+	t_vertex	**tab;
+	t_matrice	mat;
 }					t_map;
 
 typedef struct		s_img
@@ -71,13 +62,15 @@ typedef struct		s_win
 	void		*winp;
 	t_img		simg;
 	t_map		m;
-	t_vertex	vec[3];
 	float		xt;
 	float		yt;
 	float		rot;
 	te_keys		keys;
 }					t_win;
 
+void			init_map(t_win *w);
+t_vertex		*split_nb_to_tab2(t_map *m, char **line, int i, int *lizi);
+t_vertex		**split_nb_to_tab1(char **tab, t_map *m);
 void			file_to_tab(char *path, t_map *m);
 int				tablen(const char **tab);
 void			free_useless(char ***tab, char **s1, int tmax);
