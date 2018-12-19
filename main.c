@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/09 13:08:32 by naali             #+#    #+#             */
-/*   Updated: 2018/12/16 14:40:11 by naali            ###   ########.fr       */
+/*   Updated: 2018/12/19 14:16:48 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@
 
 void	refresh_screen(t_win *win)
 {
-		mlx_destroy_image(win->mlxp, win->simg.imgp);
-		win->simg.imgp = mlx_new_image(win->mlxp, WINX, WINY);
-		win->simg.data = (int*)mlx_get_data_addr(win->simg.imgp, &(win->simg.bpp), &(win->simg.s_l), &(win->simg.endian));
+	mlx_clear_window (win->mlxp, win->winp);
+	mlx_destroy_image(win->mlxp, win->simg.imgp);
+	win->simg.imgp = mlx_new_image(win->mlxp, WINX, WINY);
+	win->simg.data = (int*)mlx_get_data_addr(win->simg.imgp, &(win->simg.bpp), &(win->simg.s_l), &(win->simg.endian));
 
+	init_map(win);
 //		Fonction de remplissage d'image ICI
 
-		mlx_put_image_to_window(win->mlxp, win->winp, win->simg.imgp, 0, 0);
+	mlx_put_image_to_window(win->mlxp, win->winp, win->simg.imgp, 0, 0);
 }
 
 int		deal_with_keyboard(int key, void *ptr)
@@ -40,6 +42,36 @@ int		deal_with_keyboard(int key, void *ptr)
 		/*free les variables*/
 		printf("%s, %d\n", "Echap", key);
 		exit(0);
+	}
+	else if (key == 91)
+	{
+		(tmp->alpha) = (tmp->alpha) + 5;
+		refresh_screen(tmp);
+	}
+	else if (key == 84)
+	{
+		(tmp->alpha) = (tmp->alpha) - 5;
+		refresh_screen(tmp);
+	}
+	else if (key == 86)
+	{
+		(tmp->beta) = (tmp->beta) + 5;
+		refresh_screen(tmp);
+	}
+	else if (key == 88)
+	{
+		(tmp->beta) = (tmp->beta) - 5;
+		refresh_screen(tmp);
+	}
+	else if (key == 83)
+	{
+		(tmp->ceta) = (tmp->ceta) + 5;
+		refresh_screen(tmp);
+	}
+	else if (key == 89)
+	{
+		(tmp->ceta) = (tmp->ceta) - 5;
+		refresh_screen(tmp);
 	}
 	else
 		printf("%s, %d\n", "Autre", key);
@@ -61,8 +93,10 @@ int		main(int ac, char **av)
 	w.mlxp = mlx_init();
 	w.winp = mlx_new_window(w.mlxp, WINX, WINY, "FDF");
 //	init_vectors(&w, w.vec);
-	(void)av;
-
+//	(void)av;
+	w.alpha = 0;
+	w.beta = 0;
+	w.ceta = 0;
 // Recuperation du nombre de ligne
 	file_to_tab(av[1], &(w.m));
 	w.m.mat = init_matrice();

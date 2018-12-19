@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 10:41:27 by naali             #+#    #+#             */
-/*   Updated: 2018/12/16 15:52:51 by naali            ###   ########.fr       */
+/*   Updated: 2018/12/19 14:14:46 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,6 @@
 # define ALPHA 45
 
 # include "t_struct.h"
-
-typedef enum		e_keys
-{
-	fg,
-	fd,
-	fb,
-	fh,
-	esc
-}					te_keys;
 
 typedef struct		s_map
 {
@@ -65,7 +56,9 @@ typedef struct		s_win
 	float		xt;
 	float		yt;
 	float		rot;
-	te_keys		keys;
+	double		alpha;
+	double		beta;
+	double		ceta;
 }					t_win;
 
 void			init_map(t_win *w);
