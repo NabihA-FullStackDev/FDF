@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 13:24:08 by naali             #+#    #+#             */
-/*   Updated: 2019/01/25 13:47:44 by naali            ###   ########.fr       */
+/*   Updated: 2019/01/29 11:48:24 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,25 +73,29 @@ static t_vertex		**split_nb_to_tab1(char **tab, t_map *m)
 	return (tabnb);
 }
 
-void				file_to_tab(char *path, t_map *m)
+int				file_to_tab(char *path, t_map *m)
 {
 	m->xmax = 0;
 	m->ymax = 0;
 	m->zmax = 0;
 	m->tbline = NULL;
-	if ((m->fd = open(path, O_RDONLY)) == -1 || m->fd == 0)
+	if ((m->fd = open(path, O_RDONLY)) <= 0 || m->fd == 0)
 	{
-		printf("%s est invalide\n", path);
-		return ;
+		ft_putstr(path);
+		ft_putstr(" est invalide\n");
+		return (-1);
 	}
 	while (get_next_line(m->fd, &(m->line)) > 0)
 	{
 		m->tbline = ft_pushback_str_to_tab(&(m->tbline), &(m->line));
 		m->nbl++;
 	}
+	if (m->tbline == NULL)
+		return (-1);
 	m->tab = split_nb_to_tab1(m->tbline, m);
 	if (m->line != NULL)
 		free(m->line);
 	if (m->fd > 0)
 		close(m->fd);
+	return (0);
 }

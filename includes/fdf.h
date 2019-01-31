@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 10:41:27 by naali             #+#    #+#             */
-/*   Updated: 2019/01/25 16:05:30 by naali            ###   ########.fr       */
+/*   Updated: 2019/01/29 17:05:28 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # define ZPIX 4
 
-# define WINX 1024
-# define WINY 768
+# define WINX 1600
+# define WINY 1200
 
 # define EYEX WINX/2
 # define EYEY WINY/2
@@ -78,6 +78,11 @@ typedef struct		s_win
 	t_vect		start;
 	t_vect		end;
 	int			color;
+	int			c_start;
+	int			c_end;
+	int			z_start;
+	int			z_end;
+	int			cstep;
 	t_matrice   x_mat;
 	t_matrice   y_mat;
 	t_matrice   z_mat;
@@ -89,13 +94,14 @@ typedef struct		s_win
 void			init_map(t_win *w);
 //t_vertex		*split_nb_to_tab2(t_map *m, char **line, int i, int *lizi);
 //t_vertex		**split_nb_to_tab1(char **tab, t_map *m);
-void			file_to_tab(char *path, t_map *m);
+int				file_to_tab(char *path, t_map *m);
 int				tablen(const char **tab);
 void			free_useless(char ***tab, char **s1, int tmax);
 char			**ft_pushback_str_to_tab(char ***tab, char **s1);
 int				color_choice(int z);
-void			print_line1(t_win *w, t_vect start, t_vect end, int color);
+void			print_line1(t_win *w, t_vect start, t_vect end);
 void			put_color_to_pix(t_win *w, t_vertex vtx);
 int				color_choice(int z);
+int				deal_with_keyboard(int key, void *ptr);
 
 #endif

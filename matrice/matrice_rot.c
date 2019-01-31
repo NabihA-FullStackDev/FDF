@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 13:48:06 by naali             #+#    #+#             */
-/*   Updated: 2019/01/11 10:17:41 by naali            ###   ########.fr       */
+/*   Updated: 2019/01/29 16:28:50 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ t_matrice		set_Z_matrice(double degree)
 
 	radian = conv_deg_to_rad(degree);
 	matrice.tab[0][0] = cos(radian);
-	matrice.tab[0][1] = sin(radian);
+	matrice.tab[0][1] = -sin(radian);
 	matrice.tab[0][2] = 0;
 	matrice.tab[0][3] = 0;
 
-	matrice.tab[1][0] = -sin(radian);
+	matrice.tab[1][0] = sin(radian);
 	matrice.tab[1][1] = cos(radian);
 	matrice.tab[1][2] = 0;
 	matrice.tab[1][3] = 0;
