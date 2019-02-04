@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 13:24:08 by naali             #+#    #+#             */
-/*   Updated: 2019/01/29 11:48:24 by naali            ###   ########.fr       */
+/*   Updated: 2019/02/04 17:42:24 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ static t_vertex		**split_nb_to_tab1(char **tab, t_map *m)
 	t_vertex	**tabnb;
 
 	i = 0;
-	line = NULL;
 	if ((tabnb = (t_vertex**)malloc(sizeof(t_vertex*)\
 					* tablen((const char**)tab))) == NULL)
 		return (NULL);
+	line = NULL;
 	while (tab[i] != 0)
 	{
 		line = ft_strsplit(tab[i], ' ');

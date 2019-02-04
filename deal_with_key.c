@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 16:52:01 by naali             #+#    #+#             */
-/*   Updated: 2019/01/29 17:23:02 by naali            ###   ########.fr       */
+/*   Updated: 2019/02/04 13:12:46 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ static void		zoom_call(int key, t_win *tmp)
 		tmp->zoom = tmp->zoom + 1;
 	if (key == 78)
 		tmp->zoom = tmp->zoom - 1;
+	if (tmp->zoom > 100)
+		tmp->zoom = 100;
+	if (tmp->zoom < 0)
+		tmp->zoom = 0;
 }
 
 static void		iso_plan(t_win *tmp)

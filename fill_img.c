@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 12:59:33 by naali             #+#    #+#             */
-/*   Updated: 2019/01/29 16:34:09 by naali            ###   ########.fr       */
+/*   Updated: 2019/02/04 17:58:07 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,15 @@ void		put_color_to_pix(t_win *w, t_vertex vtx)
 	w->simg.data[(y * WINX) + x] = vtx.color;
 }
 
+void		old_init(t_win *w, t_vertex *old, t_matrice mtmp)
+{
+	w->z_start = (*old).z;
+	*old = mult_vtex_by_mat(w->center_mat, *old);
+	*old = mult_vtex_by_mat(mtmp, *old);
+	w->start = init_vect((*old).x, ((*old).y - ((*old).z * 0.1)));
+	w->c_start = (*old).color;
+}
+
 void		send_to_sgmnt_trace(t_win *w, int i, int j, t_matrice mtmp)
 {
 	t_vertex	tmp;
@@ -59,22 +68,14 @@ void		send_to_sgmnt_trace(t_win *w, int i, int j, t_matrice mtmp)
 	if (i > 0)
 	{
 		old = w->m.tab[i - 1][j];
-		w->z_start = old.z;
-		old = mult_vtex_by_mat(set_T_matrice(w->m.xmax/-2, w->m.ymax/-2, 0), old);
-		old = mult_vtex_by_mat(mtmp, old);
-		w->start = init_vect(old.x, (old.y - (old.z * 0.1)));
-		w->c_start = old.color;
+		old_init(w, &old, mtmp);
 		w->c_end = tmp.color;
 		print_line1(w, w->start, w->end);
 	}
 	if (j > 0)
 	{
 		old = w->m.tab[i][j - 1];
-		w->z_start = old.z;
-		old = mult_vtex_by_mat(set_T_matrice(w->m.xmax/-2, w->m.ymax/-2, 0), old);
-		old = mult_vtex_by_mat(mtmp, old);
-		w->start = init_vect(old.x, (old.y - (old.z * 0.1)));
-		w->c_start = old.color;
+		old_init(w, &old, mtmp);
 		w->c_end = tmp.color;
 		print_line1(w, w->start, w->end);
 	}
@@ -82,16 +83,12 @@ void		send_to_sgmnt_trace(t_win *w, int i, int j, t_matrice mtmp)
 
 void		draw_to_img(t_win *w, t_matrice mtmp, int i, int j)
 {
-	int			z;
 	t_vertex	tmp;
 
-//	z = (int)w->m.tab[i][j].z;
 	tmp = w->m.tab[i][j];
 	w->z_end = tmp.z;
 	tmp = mult_vtex_by_mat(set_T_matrice(w->m.xmax/-2, w->m.ymax/-2, 0), tmp);
 	tmp = mult_vtex_by_mat(mtmp, tmp);
-//	w->x = (int)tmp.x;
-//	w->y = ((int)tmp.y - (int)(tmp.z * 0.1));
 	put_color_to_pix(w, tmp);
 	send_to_sgmnt_trace(w, i, j, mtmp);
 }
@@ -105,10 +102,8 @@ t_matrice	init_mat_position(t_win *w)
 	w->z_mat = set_Z_matrice(w->ceta);
 	w->t_mat = set_T_matrice(w->t_x, w->t_y, w->t_z);
 	w->screen_mat = set_zoom_matrice(w->zoom);
-//	w->center_mat = set_T_matrice(w->m.xmax/-2, w->m.ymax/-2, w->m.zmax/-2);
-	w->center_mat = set_T_matrice(w->m.xmax/-2, w->m.ymax/-2, w->m.zmax/2);
+	w->center_mat = set_T_matrice(w->m.xmax/-2, w->m.ymax/-2, 0);
 	mtmp = init_matrice();
-//	mtmp = mult_matrice(w->center_mat, mtmp);
 	mtmp = mult_matrice(w->x_mat, mtmp);
 	mtmp = mult_matrice(w->y_mat, mtmp);
 	mtmp = mult_matrice(w->z_mat, mtmp);
@@ -121,7 +116,6 @@ void		init_map(t_win *w)
 {
 	int			i;
 	int			j;
-	t_vertex	tmp;
 	t_matrice   mtmp;
 
 	i = 0;

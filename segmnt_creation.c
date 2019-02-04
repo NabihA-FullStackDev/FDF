@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:09:53 by naali             #+#    #+#             */
-/*   Updated: 2019/01/29 14:35:12 by naali            ###   ########.fr       */
+/*   Updated: 2019/02/04 17:59:07 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "includes/fdf.h"
 #include "includes/t_struct.h"
 
-void		init_sgmt(t_sgmt *l, int swp, t_vect start, t_vect end)
+void		init_sgmt(t_sgmt *l, t_vect start, t_vect end)
 {
 	l->dx = end.x - start.x;
 	l->dy = fabs(end.y - start.y);
@@ -34,7 +34,6 @@ void		init_sgmt(t_sgmt *l, int swp, t_vect start, t_vect end)
 
 void		change_vect(t_win *w, int swp, t_vect *start, t_vect *end)
 {
-	int		color;
 	double	tmp;
 
 	w->cstep = 1;
@@ -63,7 +62,7 @@ void		print_line2(t_win *w, int swp, t_vect start, t_vect end)
 	t_sgmt	l;
 
 	color = w->color;
-	init_sgmt(&l, swp, start, end);
+	init_sgmt(&l, start, end);
 	while (++l.x < (l.maxX - 1))
 	{
  		if (w->z_start != w->z_end)
