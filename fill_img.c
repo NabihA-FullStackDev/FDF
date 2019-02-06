@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 12:59:33 by naali             #+#    #+#             */
-/*   Updated: 2019/02/04 17:58:07 by naali            ###   ########.fr       */
+/*   Updated: 2019/02/06 18:43:46 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,33 +21,7 @@
 #include "includes/fdf.h"
 #include "includes/t_struct.h"
 
-int			color_choice(int z)
-{
-	if (z < 5)
-		return (0x0042FF);
-	else if (z >= 10 && z < 20)
-		return (0x00FF00);
-	else if (z >= 20 && z < 30)
-		return (0xFF4200);
-	else if (z >= 30)
-		return (0xFFFFFF);
-	return (0);
-}
-
-void		put_color_to_pix(t_win *w, t_vertex vtx)
-{
-	int		x;
-	int		y;
-
-	x = (int)vtx.x;
-	y = ((int)vtx.y - (int)(vtx.z * 0.1));
-	if (((y * WINX) + x > 0) &&\
-		(((y * WINX) + x < WINX * WINY) &&\
-		((y * WINX + x) / WINX == y)))
-	w->simg.data[(y * WINX) + x] = vtx.color;
-}
-
-void		old_init(t_win *w, t_vertex *old, t_matrice mtmp)
+static void			old_init(t_win *w, t_vertex *old, t_matrice mtmp)
 {
 	w->z_start = (*old).z;
 	*old = mult_vtex_by_mat(w->center_mat, *old);
@@ -56,13 +30,14 @@ void		old_init(t_win *w, t_vertex *old, t_matrice mtmp)
 	w->c_start = (*old).color;
 }
 
-void		send_to_sgmnt_trace(t_win *w, int i, int j, t_matrice mtmp)
+static void			send_to_sgmnt_trace(t_win *w, int i, int j, t_matrice mtmp)
 {
 	t_vertex	tmp;
 	t_vertex	old;
 
 	tmp = w->m.tab[i][j];
-	tmp = mult_vtex_by_mat(set_T_matrice(w->m.xmax/-2, w->m.ymax/-2, 0), tmp);
+	tmp = mult_vtex_by_mat(set_t_matrice(w->m.xmax / -2,\
+										w->m.ymax / -2, 0), tmp);
 	tmp = mult_vtex_by_mat(mtmp, tmp);
 	w->end = init_vect(tmp.x, (tmp.y - (tmp.z * 0.1)));
 	if (i > 0)
@@ -81,28 +56,30 @@ void		send_to_sgmnt_trace(t_win *w, int i, int j, t_matrice mtmp)
 	}
 }
 
-void		draw_to_img(t_win *w, t_matrice mtmp, int i, int j)
+static void			draw_to_img(t_win *w, t_matrice mtmp, int i, int j)
 {
 	t_vertex	tmp;
 
 	tmp = w->m.tab[i][j];
 	w->z_end = tmp.z;
-	tmp = mult_vtex_by_mat(set_T_matrice(w->m.xmax/-2, w->m.ymax/-2, 0), tmp);
+	tmp = mult_vtex_by_mat(set_t_matrice(w->m.xmax / -2,\
+										w->m.ymax / -2, 0), tmp);
 	tmp = mult_vtex_by_mat(mtmp, tmp);
 	put_color_to_pix(w, tmp);
 	send_to_sgmnt_trace(w, i, j, mtmp);
 }
 
-t_matrice	init_mat_position(t_win *w)
+static t_matrice	init_mat_position(t_win *w)
 {
-	t_matrice   mtmp;
+	t_matrice	mtmp;
 
-	w->x_mat = set_X_matrice(w->alpha);
-	w->y_mat = set_Y_matrice(w->beta);
-	w->z_mat = set_Z_matrice(w->ceta);
-	w->t_mat = set_T_matrice(w->t_x, w->t_y, w->t_z);
+	w->x_mat = set_x_matrice(w->alpha);
+	w->y_mat = set_y_matrice(w->beta);
+	w->z_mat = set_z_matrice(w->ceta);
+	w->t_mat = set_t_matrice(w->t_x, w->t_y, w->t_z);
 	w->screen_mat = set_zoom_matrice(w->zoom);
-	w->center_mat = set_T_matrice(w->m.xmax/-2, w->m.ymax/-2, 0);
+	w->center_mat = set_t_matrice(w->m.xmax / -2,\
+								w->m.ymax / -2, 0);
 	mtmp = init_matrice();
 	mtmp = mult_matrice(w->x_mat, mtmp);
 	mtmp = mult_matrice(w->y_mat, mtmp);
@@ -112,11 +89,11 @@ t_matrice	init_mat_position(t_win *w)
 	return (mtmp);
 }
 
-void		init_map(t_win *w)
+void				init_map(t_win *w)
 {
 	int			i;
 	int			j;
-	t_matrice   mtmp;
+	t_matrice	mtmp;
 
 	i = 0;
 	mtmp = init_mat_position(w);

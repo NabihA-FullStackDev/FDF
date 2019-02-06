@@ -6,22 +6,18 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 10:41:27 by naali             #+#    #+#             */
-/*   Updated: 2019/01/29 17:05:28 by naali            ###   ########.fr       */
+/*   Updated: 2019/02/06 18:41:41 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
-
 # define ZPIX 4
-
 # define WINX 1600
 # define WINY 1200
-
 # define EYEX WINX/2
 # define EYEY WINY/2
 # define ALPHA 45
-
 # include "t_struct.h"
 
 typedef struct		s_sgmt
@@ -32,7 +28,7 @@ typedef struct		s_sgmt
 	int				ystep;
 	int				x;
 	int				y;
-	int				maxX;
+	int				maxx;
 }					t_sgmt;
 
 typedef struct		s_map
@@ -83,25 +79,24 @@ typedef struct		s_win
 	int			z_start;
 	int			z_end;
 	int			cstep;
-	t_matrice   x_mat;
-	t_matrice   y_mat;
-	t_matrice   z_mat;
-	t_matrice   t_mat;
-	t_matrice   screen_mat;
-	t_matrice   center_mat;
+	t_matrice	x_mat;
+	t_matrice	y_mat;
+	t_matrice	z_mat;
+	t_matrice	t_mat;
+	t_matrice	screen_mat;
+	t_matrice	center_mat;
 }					t_win;
 
-void			init_map(t_win *w);
-//t_vertex		*split_nb_to_tab2(t_map *m, char **line, int i, int *lizi);
-//t_vertex		**split_nb_to_tab1(char **tab, t_map *m);
-int				file_to_tab(char *path, t_map *m);
-int				tablen(const char **tab);
-void			free_useless(char ***tab, char **s1, int tmax);
-char			**ft_pushback_str_to_tab(char ***tab, char **s1);
-int				color_choice(int z);
-void			print_line1(t_win *w, t_vect start, t_vect end);
-void			put_color_to_pix(t_win *w, t_vertex vtx);
-int				color_choice(int z);
-int				deal_with_keyboard(int key, void *ptr);
+void				init_map(t_win *w);
+int					file_to_tab(char *path, t_map *m);
+int					tablen(const char **tab);
+void				free_useless(char ***tab, char **s1, int tmax);
+char				**ft_pushback_str_to_tab(char ***tab, char **s1);
+int					color_choice(int z);
+void				print_line1(t_win *w, t_vect start, t_vect end);
+void				put_color_to_pix(t_win *w, t_vertex vtx);
+int					color_choice(int z);
+int					deal_with_keyboard(int key, void *ptr);
+void				refresh_screen(t_win *win);
 
 #endif

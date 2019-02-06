@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 16:52:01 by naali             #+#    #+#             */
-/*   Updated: 2019/02/04 13:12:46 by naali            ###   ########.fr       */
+/*   Updated: 2019/02/06 18:26:35 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,6 @@
 #include "mlx.h"
 #include "libft/libft.h"
 #include "includes/fdf.h"
-
-void			refresh_screen(t_win *win)
-{
-	mlx_destroy_image(win->mlxp, win->simg.imgp);
-	win->simg.imgp = mlx_new_image(win->mlxp, WINX, WINY);
-	win->simg.data = (int*)mlx_get_data_addr(win->simg.imgp, \
-					&(win->simg.bpp), &(win->simg.s_l), &(win->simg.endian));
-	init_map(win);
-
-	mlx_clear_window (win->mlxp, win->winp);
-	mlx_put_image_to_window(win->mlxp, win->winp, win->simg.imgp, 0, 0);
-}
 
 static void		rotation_call(int key, t_win *tmp)
 {
@@ -77,8 +65,8 @@ static void		iso_plan(t_win *tmp)
 		tmp->alpha = -45;
 		tmp->beta = 45;
 		tmp->ceta = -60;
-		tmp->t_x = (WINX/2) - (tmp->m.xmax/2);
-		tmp->t_y = (WINY/2) - (tmp->m.ymax/2);
+		tmp->t_x = (WINX / 2) - (tmp->m.xmax / 2);
+		tmp->t_y = (WINY / 2) - (tmp->m.ymax / 2);
 		tmp->t_z = 42;
 		tmp->zoom = 25;
 		flg = 0;
@@ -88,8 +76,8 @@ static void		iso_plan(t_win *tmp)
 		tmp->alpha = 0;
 		tmp->beta = 0;
 		tmp->ceta = 0;
-		tmp->t_x = (WINX/2) - (tmp->m.xmax/2);
-		tmp->t_y = (WINY/2) - (tmp->m.ymax/2);
+		tmp->t_x = (WINX / 2) - (tmp->m.xmax / 2);
+		tmp->t_y = (WINY / 2) - (tmp->m.ymax / 2);
 		tmp->t_z = 42;
 		tmp->zoom = 25;
 		flg = 1;
@@ -103,7 +91,8 @@ int				deal_with_keyboard(int key, void *ptr)
 	tmp = (t_win*)ptr;
 	if (key == 53)
 	{
-		/*free les variables*/
+		mlx_destroy_image(tmp->mlxp, tmp->simg.imgp);
+		mlx_destroy_window(tmp->mlxp, tmp->winp);
 		exit(0);
 	}
 	if (key == 84 || key == 91 || key == 86 || \

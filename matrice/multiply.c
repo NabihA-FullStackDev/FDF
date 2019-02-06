@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/15 15:35:57 by naali             #+#    #+#             */
-/*   Updated: 2019/01/25 13:12:38 by naali            ###   ########.fr       */
+/*   Updated: 2019/02/06 18:51:35 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,9 @@ t_vertex	mult_vtex_by_mat(t_matrice mat, t_vertex pvt)
 
 	x = pvt.x * mat.tab[0][0] + pvt.y * mat.tab[0][1]\
 		+ pvt.z * mat.tab[0][2] + mat.tab[0][3];
-
 	y = pvt.x * mat.tab[1][0] + pvt.y * mat.tab[1][1]\
 		+ pvt.z * mat.tab[1][2] + mat.tab[1][3];
-
- 	z = pvt.x * mat.tab[2][0] + pvt.y * mat.tab[2][1]\
+	z = pvt.x * mat.tab[2][0] + pvt.y * mat.tab[2][1]\
 		+ pvt.z * mat.tab[2][2] + mat.tab[2][3];
 	return (init_vtex(x, y, z, pvt.color));
 }

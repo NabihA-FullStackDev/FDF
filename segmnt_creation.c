@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/25 14:09:53 by naali             #+#    #+#             */
-/*   Updated: 2019/02/04 17:59:07 by naali            ###   ########.fr       */
+/*   Updated: 2019/02/06 18:39:52 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void		init_sgmt(t_sgmt *l, t_vect start, t_vect end)
 	l->ystep = (start.y < end.y) ? 1 : -1;
 	l->x = (int)(start.x);
 	l->y = (int)(start.y);
-	l->maxX = (int)(end.x);
+	l->maxx = (int)(end.x);
 }
 
 void		change_vect(t_win *w, int swp, t_vect *start, t_vect *end)
@@ -63,10 +63,10 @@ void		print_line2(t_win *w, int swp, t_vect start, t_vect end)
 
 	color = w->color;
 	init_sgmt(&l, start, end);
-	while (++l.x < (l.maxX - 1))
+	while (++l.x < (l.maxx - 1))
 	{
- 		if (w->z_start != w->z_end)
- 			color = abs(color + w->cstep);
+		if (w->z_start != w->z_end)
+			color = abs(color + w->cstep);
 		if (swp >= 0)
 			put_color_to_pix(w, init_vtex(l.y, l.x, 0, color));
 		else

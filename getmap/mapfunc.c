@@ -6,7 +6,7 @@
 /*   By: naali <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 13:24:08 by naali             #+#    #+#             */
-/*   Updated: 2019/02/04 17:42:24 by naali            ###   ########.fr       */
+/*   Updated: 2019/02/06 18:37:22 by naali            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_vertex		*split_nb_to_tab2(t_map *m, char **line, int i, int *lizi)
 	{
 		tabnb[j] = init_vtex((double)j, (double)i, \
 							(double)ft_atoi(line[j]), \
-							 color_choice(ft_atoi(line[j])));
+							color_choice(ft_atoi(line[j])));
 		if (m->zmax < ft_atoi(line[j]))
 			m->zmax = ft_atoi(line[j]);
 		j = j + 1;
@@ -73,7 +73,25 @@ static t_vertex		**split_nb_to_tab1(char **tab, t_map *m)
 	return (tabnb);
 }
 
-int				file_to_tab(char *path, t_map *m)
+static int			check_line(char **l, int *fd)
+{
+	int		i;
+
+	i = 0;
+	while ((*l)[i] >= 0 && (*l)[i] <= 127)
+	{
+		i++;
+		if ((*l)[i] == '\0')
+			return (0);
+	}
+	if ((*l) != NULL)
+		free(*l);
+	if ((*fd) > 0)
+		close(*fd);
+	return (-1);
+}
+
+int					file_to_tab(char *path, t_map *m)
 {
 	m->xmax = 0;
 	m->ymax = 0;
@@ -87,6 +105,8 @@ int				file_to_tab(char *path, t_map *m)
 	}
 	while (get_next_line(m->fd, &(m->line)) > 0)
 	{
+		if (check_line(&(m->line), &(m->fd)) == -1)
+			return (-1);
 		m->tbline = ft_pushback_str_to_tab(&(m->tbline), &(m->line));
 		m->nbl++;
 	}

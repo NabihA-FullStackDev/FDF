@@ -6,7 +6,7 @@
 #    By: naali <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/04 17:52:13 by naali             #+#    #+#              #
-#    Updated: 2019/02/04 17:57:30 by naali            ###   ########.fr        #
+#    Updated: 2019/02/06 18:29:44 by naali            ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -16,8 +16,8 @@ CC		=	gcc
 
 CFLAGS	+=	-Wall -Wextra -Werror
 
-SRC0		=	deal_with_key.c fill_img.c main.c segmnt_creation.c
-
+SRC0		=	deal_with_key.c fill_img.c main.c segmnt_creation.c \
+				refresh_windows.c pixel_color_put_choice.c
 
 SRCPATH0	=	/Users/naali/42_projects/fdf
 
@@ -30,7 +30,8 @@ SRCPATH1	=	/Users/naali/42_projects/fdf/getmap
 
 SOURCES1	=	$(addprefix $(SRCPATH1)/, $(SRC1))
 
-SRC2		=	convert.c matrice_init.c matrice_rot.c matrice_scal.c matrice_trans.c mult_matrice.c multiply.c t_vect.c t_vertex.c
+SRC2		=	convert.c matrice_init.c matrice_rot.c matrice_scal.c \
+				matrice_trans.c mult_matrice.c multiply.c t_vect.c t_vertex.c
 
 
 SRCPATH2	=	/Users/naali/42_projects/fdf/matrice
