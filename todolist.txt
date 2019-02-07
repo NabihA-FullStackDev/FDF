@@ -1,2 +1,0 @@
-- Verouiller les negatifs et positifs dans le zoom
-- attention au fichier random
